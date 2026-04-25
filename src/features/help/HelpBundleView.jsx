@@ -22,7 +22,7 @@ export default function HelpBundleView({
     >
       <div style={styles.container}>
         <header style={styles.header}>
-          <h1 style={styles.heading}>Here’s your help for this moment</h1>
+          <h1 style={styles.heading}>Your help for this moment</h1>
         </header>
 
         <section style={styles.card}>
@@ -74,7 +74,7 @@ export default function HelpBundleView({
 
         <div style={styles.actions}>
           <button style={styles.secondaryButton} onClick={onStartOver}>
-            Start over
+            Create a new moment
           </button>
         </div>
       </div>

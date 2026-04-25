@@ -1,60 +1,72 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { getGospelVariant } from "./gospelVariants";
 
 export default function GospelInvitation({ bundle }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const variant = useMemo(() => getGospelVariant(bundle), [bundle]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
+
   return (
     <>
       <section style={styles.invitation}>
-        <p style={styles.kicker}>Still searching for hope?</p>
+        <p style={styles.kicker}>{variant.kicker}</p>
         <button style={styles.openButton} onClick={() => setIsOpen(true)}>
-          Explore the hope of Jesus
+          {variant.buttonText}
         </button>
       </section>
 
-      {isOpen && (
-        <div style={styles.backdrop} onClick={() => setIsOpen(false)}>
-          <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <button
-              style={styles.closeButton}
-              onClick={() => setIsOpen(false)}
-              aria-label="Close"
-            >
-              ×
-            </button>
+      {isOpen &&
+        createPortal(
+          <div style={styles.backdrop} onClick={() => setIsOpen(false)}>
+            <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+              <button
+                style={styles.closeButton}
+                onClick={() => setIsOpen(false)}
+                aria-label="Close"
+              >
+                ×
+              </button>
 
-            <p style={styles.modalLabel}>The Gospel</p>
+              <p style={styles.modalLabel}>The Gospel</p>
 
-            <h2 style={styles.modalTitle}>God has come near in Jesus.</h2>
+              <h2 style={styles.modalTitle}>{variant.title}</h2>
 
-            <p style={styles.modalText}>
-              The deepest help God gives us is not only comfort for a hard
-              moment, but Himself. God created us to know Him, love Him, and
-              live with Him. But sin has separated us from Him, and we cannot
-              heal that separation on our own.
-            </p>
+              <p style={styles.modalText}>{variant.intro}</p>
 
-            <p style={styles.modalText}>
-              Jesus Christ, the Son of God, came to rescue us. He lived without
-              sin, died on the cross for our sins, and rose again so that all
-              who trust in Him can be forgiven, made new, and brought near to
-              God forever.
-            </p>
+              <p style={styles.modalText}>
+                Jesus Christ, the Son of God, came to rescue us. He lived
+                without sin, died on the cross for our sins, and rose again so
+                that all who trust in Him can be forgiven, made new, and brought
+                near to God forever.
+              </p>
 
-            <p style={styles.modalText}>
-              If you want to come to Him, you can turn from sin, trust Jesus,
-              and call on Him. He is merciful, faithful, and near to all who
-              seek Him.
-            </p>
+              <p style={styles.modalText}>
+                If you want to come to Him, you can turn from sin, trust Jesus,
+                and call on Him. He is merciful, faithful, and near to all who
+                seek Him.
+              </p>
 
-            <p style={styles.prayer}>
-              “Lord Jesus, I need You. I believe You died for my sins and rose
-              again. Forgive me, make me new, and draw me near to God. I give
-              myself to You. Amen.”
-            </p>
-          </div>
-        </div>
-      )}
+              <p style={styles.prayer}>
+                “Lord Jesus, I need You. I believe You died for my sins and rose
+                again. Forgive me, make me new, and draw me near to God. I give
+                myself to You. Amen.”
+              </p>
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
@@ -86,19 +98,18 @@ const styles = {
     inset: 0,
     zIndex: 100,
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    padding: "20px",
+    alignItems: "flex-start",
+    padding: "56px 20px",
     background: "rgba(0, 0, 0, 0.55)",
     backdropFilter: "blur(8px)",
+    overflowY: "auto",
     animation: "modalFadeIn 180ms ease-out both",
   },
   modal: {
     position: "relative",
     width: "100%",
-    maxWidth: "620px",
-    maxHeight: "86vh",
-    overflowY: "auto",
+    maxWidth: "680px",
     padding: "30px",
     borderRadius: "24px",
     border: "1px solid var(--border)",
