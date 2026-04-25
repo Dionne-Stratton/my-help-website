@@ -1,5 +1,6 @@
 import SongResourceCard from "./SongResourceCard";
 import GospelInvitation from "./GospelInvitation";
+import logo from "../../assets/logo.png";
 
 export default function HelpBundleView({
   bundle,
@@ -21,6 +22,10 @@ export default function HelpBundleView({
       }}
     >
       <div style={styles.container}>
+        <div style={styles.logoWrapper}>
+          <img src={logo} alt="My Help" style={styles.logo} />
+        </div>
+
         <header style={styles.header}>
           <h1 style={styles.heading}>Your help for this moment</h1>
         </header>
@@ -93,6 +98,19 @@ const styles = {
     maxWidth: "720px",
     margin: "0 auto",
   },
+
+  logoWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "18px",
+  },
+
+  logo: {
+    height: "64px",
+    objectFit: "contain",
+    opacity: 0.85,
+  },
+
   header: {
     textAlign: "center",
     marginBottom: "32px",
