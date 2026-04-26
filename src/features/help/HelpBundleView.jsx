@@ -1,9 +1,11 @@
 import SongResourceCard from "./SongResourceCard";
 import GospelInvitation from "./GospelInvitation";
+import DebugPanel from "./DebugPanel";
 import logo from "../../assets/logo.png";
 
 export default function HelpBundleView({
   bundle,
+  //   debug,
   onStartOver,
   isExiting = false,
 }) {
@@ -77,6 +79,8 @@ export default function HelpBundleView({
 
         <GospelInvitation bundle={bundle} />
 
+        {/* <DebugPanel debug={debug} /> */}
+
         <div style={styles.actions}>
           <button style={styles.secondaryButton} onClick={onStartOver}>
             Create a new moment
@@ -98,19 +102,16 @@ const styles = {
     maxWidth: "720px",
     margin: "0 auto",
   },
-
   logoWrapper: {
     display: "flex",
     justifyContent: "center",
     marginBottom: "18px",
   },
-
   logo: {
     height: "64px",
     objectFit: "contain",
     opacity: 0.85,
   },
-
   header: {
     textAlign: "center",
     marginBottom: "32px",

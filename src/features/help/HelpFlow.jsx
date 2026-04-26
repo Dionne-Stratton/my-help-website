@@ -13,6 +13,7 @@ export default function HelpFlow() {
   const [status, setStatus] = useState("idle"); // idle | loading | loading-exit | results | results-exit | error
   const [input, setInput] = useState("");
   const [bundle, setBundle] = useState(null);
+  const [debug, setDebug] = useState(null);
   const [error, setError] = useState(null);
   const [sessionId, setSessionId] = useState(generateSessionId());
 
@@ -21,6 +22,7 @@ export default function HelpFlow() {
 
     setStatus("loading");
     setError(null);
+    setDebug(null);
 
     try {
       const minimumLoadingTime = new Promise((resolve) =>
@@ -28,11 +30,15 @@ export default function HelpFlow() {
       );
 
       const [data] = await Promise.all([
-        submitHelpRequest({ input, sessionId }),
+        submitHelpRequest({
+          input,
+          sessionId,
+        }),
         minimumLoadingTime,
       ]);
 
       setBundle(data.bundle);
+      setDebug(data.debug ?? null);
       setStatus("loading-exit");
 
       setTimeout(() => {
@@ -50,6 +56,7 @@ export default function HelpFlow() {
     setTimeout(() => {
       setInput("");
       setBundle(null);
+      setDebug(null);
       setError(null);
       setSessionId(generateSessionId());
       setStatus("idle");
@@ -74,6 +81,7 @@ export default function HelpFlow() {
     return (
       <HelpBundleView
         bundle={bundle}
+        debug={debug}
         onStartOver={handleStartOver}
         isExiting={status === "results-exit"}
       />
@@ -82,10 +90,10 @@ export default function HelpFlow() {
 
   if (status === "error") {
     return (
-      <div style={{ padding: 24 }}>
+      <main style={{ padding: 24 }}>
         <p>{error}</p>
-        <button onClick={handleStartOver}>Start over</button>
-      </div>
+        <button onClick={handleStartOver}>Create a new moment</button>
+      </main>
     );
   }
 
