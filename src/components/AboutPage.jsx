@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 export default function AboutPage({ onShowCrisisHelp }) {
@@ -34,7 +35,7 @@ export default function AboutPage({ onShowCrisisHelp }) {
         <p>My Help is rooted in the Bible and the hope we have in Jesus Christ. Its heart is to help you draw near to Him and remember His love and presence, especially in the moments when you feel alone.</p>
         <p>Whether you’ve walked with Jesus for years or are just beginning to explore faith, you’re welcome here. These resources offer spiritual encouragement alongside the care and support of trusted people in your life.</p>
         <p>You can try My Help without creating an account. Bring what’s on your heart, take a quiet moment, and see what encouragement you find.</p>
-        <a href="#help" className="about-cta">Find help for this moment</a>
+        <Link to="/" className="about-cta">Find help for this moment</Link>
       </section>
       <footer className="about-disclaimer">
         <p>My Help offers spiritual encouragement and is not a substitute for professional counseling, mental health care, or medical treatment. If you need additional support, please reach out to a qualified professional.</p>

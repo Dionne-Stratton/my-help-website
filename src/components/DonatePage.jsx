@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { PAYPAL_SUPPORT_URL } from "../constants/donations";
 
@@ -34,7 +35,7 @@ export default function DonatePage() {
       <section className="about-section" aria-labelledby="donate-welcome">
         <h2 id="donate-welcome">You’re welcome here</h2>
         <p>Whether you give, share My Help with someone who could use encouragement, or simply come here for a quiet moment with God, we’re glad you’re here. You can return whenever you need Scripture, prayer, reflection, or music for what’s on your heart.</p>
-        <a href="#help" className="about-cta">Find help for this moment</a>
+        <Link to="/" className="about-cta">Find help for this moment</Link>
       </section>
     </main>
   );

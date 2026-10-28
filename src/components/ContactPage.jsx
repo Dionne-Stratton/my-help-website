@@ -35,7 +35,7 @@ export default function ContactPage() {
           _replyto: values.email,
           _subject: "My Help: " + reason,
           _template: "table",
-          _url: window.location.origin + "/#contact",
+          _url: window.location.origin + "/contact",
         }),
         signal: controller.signal,
       });

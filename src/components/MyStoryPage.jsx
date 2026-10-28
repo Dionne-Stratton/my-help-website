@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 export default function MyStoryPage() {
@@ -34,7 +35,7 @@ export default function MyStoryPage() {
         <p>The resources My Help brings together reflect what I wish I had readily available when my emotions feel overwhelming. They’re the kinds of things I reach for myself: Scripture to meditate on, words to help me pray, a reflection to consider, and a song that speaks to what I’m going through.</p>
         <p>I made this for myself, but also for anyone who finds themselves struggling and doesn’t have someone they can reach out to in that particular moment. That word matters to me: moment. It’s the reason you’ll see it throughout the app.</p>
         <p>My hope is that you can come here, share what you’re facing in your own words, and find encouragement that helps you turn toward Jesus. Whatever has brought you here today, you’re welcome to begin with the moment you’re in.</p>
-        <a href="#help" className="about-cta">Find help for this moment</a>
+        <Link to="/" className="about-cta">Find help for this moment</Link>
       </section>
     </main>
   );
