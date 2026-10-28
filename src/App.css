@@ -1,184 +1,109 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+.app-shell {
+  --rail-width: 132px;
+  padding-inline: var(--rail-width);
 }
-
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
+.side-nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--rail-width);
+  z-index: 40;
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
   border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+  background: var(--bg);
+  overflow-y: auto;
 }
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
+.side-nav-link {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  min-height: 64px;
+  padding: 12px 4px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: 0.9rem;
 }
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.side-nav-link svg { width: 24px; height: 24px; flex-shrink: 0; }
+.side-nav-link:hover { color: var(--accent); background: var(--accent-soft); }
+.side-nav-link[aria-current="page"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(175, 238, 249, 0.3);
 }
-
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.side-nav-link:focus-visible, .about-cta:focus-visible, .skip-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.page-content { min-width: 0; overflow-wrap: anywhere; }
+.page-content:focus { outline: none; }
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: calc(var(--rail-width) + 8px);
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: 12px;
+  background: var(--surface);
+  color: var(--text-main);
+  border-radius: 8px;
+}
+.skip-link:focus { transform: none; }
+.about-page {
+  max-width: 760px;
+  margin-inline: auto;
+  padding: 112px 24px 64px;
+  line-height: 1.75;
+}
+.about-intro { text-align: center; }
+.about-logo { height: 88px; max-width: 100%; object-fit: contain; }
+.about-eyebrow { color: var(--accent); font-weight: 600; }
+.about-page h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.about-page h2 { font-size: 1.35rem; line-height: 1.35; margin-top: 0; }
+.about-page p, .about-page dd { color: var(--text-soft); }
+.about-section {
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+}
+.about-section blockquote {
+  margin: 24px 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--accent);
+}
+.about-resources { margin: 0; }
+.about-resources div + div { margin-top: 24px; }
+.about-resources dt { font-weight: 600; color: var(--accent); }
+.about-resources dd { margin: 6px 0 0; }
+.about-cta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 20px;
+  border: 1px solid rgba(175, 238, 249, 0.4);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--text-main);
+  text-decoration: none;
+  text-align: center;
+}
+.about-cta:hover { background: rgba(175, 238, 249, 0.2); }
+@media (max-width: 700px) {
+  .app-shell { --rail-width: 56px; padding-right: 0; }
+  .side-nav { padding: 6px; gap: 10px; }
+  .side-nav-link { min-height: 44px; padding: 8px; }
+  .side-nav-link span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .about-page { padding: 112px 12px 40px; }
+  .about-section { padding: 20px 16px; }
 }
