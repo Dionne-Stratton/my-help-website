@@ -4,12 +4,14 @@ import HelpFlow from "./features/help/HelpFlow";
 import AboutPage from "./components/AboutPage";
 import DonatePage from "./components/DonatePage";
 import ContactPage from "./components/ContactPage";
+import MyStoryPage from "./components/MyStoryPage";
 import "./App.css";
 
 function currentPage() {
   const hash = window.location.hash;
   if (hash === "#donate") return "donate";
   if (hash === "#contact") return "contact";
+  if (hash === "#my-story") return "story";
   return hash === "#about" ? "about" : "help";
 }
 
@@ -29,7 +31,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    document.title = page === "contact" ? "Contact My Help" : page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
+    document.title = page === "story" ? "My Story | My Help" : page === "contact" ? "Contact My Help" : page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
   }, [page]);
 
   return (
@@ -47,6 +49,12 @@ function App() {
             <circle cx="12" cy="12" r="9" /><path d="M12 11v6m0-10v1" />
           </svg>
           <span>About</span>
+        </a>
+        <a href="#my-story" className="side-nav-link" aria-label="My Story" title="My Story" aria-current={page === "story" ? "page" : undefined}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <path d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15" />
+          </svg>
+          <span>My Story</span>
         </a>
         <a href="#donate" className="side-nav-link" aria-label="Donate to support My Help" title="Donate" aria-current={page === "donate" ? "page" : undefined}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
@@ -69,6 +77,7 @@ function App() {
         <div hidden={page !== "help"}><HelpFlow /></div>
         {page === "about" && <AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />}
         {page === "donate" && <DonatePage />}
+        {page === "story" && <MyStoryPage />}
         <div hidden={page !== "contact"}><ContactPage /></div>
       </div>
     </div>
