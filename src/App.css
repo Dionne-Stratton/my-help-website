@@ -107,3 +107,21 @@
   .about-page { padding: 112px 12px 40px; }
   .about-section { padding: 20px 16px; }
 }
+
+.about-disclaimer {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+.about-disclaimer button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  text-decoration: underline;
+}
+.about-disclaimer button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

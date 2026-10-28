@@ -50,7 +50,7 @@ function App() {
       <div id="page-content" className="page-content" ref={contentRef} tabIndex={-1}>
         {/* Keep the request and bundle mounted when visitors read About. */}
         <div hidden={page !== "help"}><HelpFlow /></div>
-        {page === "about" && <AboutPage />}
+        {page === "about" && <AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />}
       </div>
     </div>
   );

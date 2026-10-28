@@ -1,6 +1,6 @@
 import logo from "../assets/logo.png";
 
-export default function AboutPage() {
+export default function AboutPage({ onShowCrisisHelp }) {
   return (
     <main className="about-page">
       <header className="about-intro">
@@ -36,6 +36,10 @@ export default function AboutPage() {
         <p>You can try My Help without creating an account. Bring what’s on your heart, take a quiet moment, and see what encouragement you find.</p>
         <a href="#help" className="about-cta">Find help for this moment</a>
       </section>
+      <footer className="about-disclaimer">
+        <p>My Help offers spiritual encouragement and is not a substitute for professional counseling, mental health care, or medical treatment. If you need additional support, please reach out to a qualified professional.</p>
+        <p>If you’re in crisis or thinking about hurting yourself, please seek immediate help. Use the crisis support number in the top-right corner. If you’ve closed it, you can <button type="button" onClick={onShowCrisisHelp}>show crisis support</button> again.</p>
+      </footer>
     </main>
   );
 }
