@@ -3,11 +3,13 @@ import CrisisHelpBadge from "./components/CrisisHelpBadge";
 import HelpFlow from "./features/help/HelpFlow";
 import AboutPage from "./components/AboutPage";
 import DonatePage from "./components/DonatePage";
+import ContactPage from "./components/ContactPage";
 import "./App.css";
 
 function currentPage() {
   const hash = window.location.hash;
   if (hash === "#donate") return "donate";
+  if (hash === "#contact") return "contact";
   return hash === "#about" ? "about" : "help";
 }
 
@@ -27,7 +29,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    document.title = page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
+    document.title = page === "contact" ? "Contact My Help" : page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
   }, [page]);
 
   return (
@@ -52,15 +54,22 @@ function App() {
           </svg>
           <span>Donate</span>
         </a>
+        <a href="#contact" className="side-nav-link" aria-label="Contact My Help" title="Contact" aria-current={page === "contact" ? "page" : undefined}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 6 9 7 9-7" />
+          </svg>
+          <span>Contact</span>
+        </a>
       </nav>
       {showCrisisHelpBadge && (
         <CrisisHelpBadge onClose={() => setShowCrisisHelpBadge(false)} />
       )}
       <div id="page-content" className="page-content" ref={contentRef} tabIndex={-1}>
-        {/* Keep the request and bundle mounted when visitors read About or Donate. */}
+        {/* Keep the request and bundle mounted when visitors browse the other pages. */}
         <div hidden={page !== "help"}><HelpFlow /></div>
         {page === "about" && <AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />}
         {page === "donate" && <DonatePage />}
+        <div hidden={page !== "contact"}><ContactPage /></div>
       </div>
     </div>
   );
