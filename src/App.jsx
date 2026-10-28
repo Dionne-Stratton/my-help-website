@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import CrisisHelpBadge from "./components/CrisisHelpBadge";
 import HelpFlow from "./features/help/HelpFlow";
 import AboutPage from "./components/AboutPage";
+import DonatePage from "./components/DonatePage";
 import "./App.css";
 
 function currentPage() {
-  return window.location.hash === "#about" ? "about" : "help";
+  const hash = window.location.hash;
+  if (hash === "#donate") return "donate";
+  return hash === "#about" ? "about" : "help";
 }
 
 function App() {
@@ -24,7 +27,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    document.title = page === "about" ? "About My Help" : "My Help";
+    document.title = page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
   }, [page]);
 
   return (
@@ -43,14 +46,21 @@ function App() {
           </svg>
           <span>About</span>
         </a>
+        <a href="#donate" className="side-nav-link" aria-label="Donate to support My Help" title="Donate" aria-current={page === "donate" ? "page" : undefined}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+          </svg>
+          <span>Donate</span>
+        </a>
       </nav>
       {showCrisisHelpBadge && (
         <CrisisHelpBadge onClose={() => setShowCrisisHelpBadge(false)} />
       )}
       <div id="page-content" className="page-content" ref={contentRef} tabIndex={-1}>
-        {/* Keep the request and bundle mounted when visitors read About. */}
+        {/* Keep the request and bundle mounted when visitors read About or Donate. */}
         <div hidden={page !== "help"}><HelpFlow /></div>
         {page === "about" && <AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />}
+        {page === "donate" && <DonatePage />}
       </div>
     </div>
   );
