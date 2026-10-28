@@ -14,7 +14,7 @@ export default function MyStoryPage() {
         <h2 id="story-moment">When encouragement is hard to gather</h2>
         <p>Sometimes I feel down, frustrated, or overwhelmed by my emotions. In that moment, there isn’t always someone I can reach out to, so I turn to what I know can help me draw near to God.</p>
         <p>I know Scripture well, and I’ll remind myself of passages that speak to what I’m feeling. I meditate on those words, encourage myself with them, and try to pray through what’s on my heart.</p>
-        <p>Sometimes one of my songs comes to mind, too. I might pull it up and listen, or simply sing it to myself as I work through that moment.</p>
+        <p>Songs can help me find encouragement, too, especially when they’re grounded in Scripture and reinforce the truth I need to remember. I might pull up a song to listen to, or simply sing one that comes to mind as I work through that moment.</p>
       </section>
 
       <section className="about-section" aria-labelledby="story-idea">
