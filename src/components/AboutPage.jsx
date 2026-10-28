@@ -8,7 +8,7 @@ export default function AboutPage({ onShowCrisisHelp }) {
         <p className="about-eyebrow">About My Help</p>
         <h1>A little encouragement for what feels heavy.</h1>
         <p>Some days, finding the words to pray or knowing where to turn can feel hard. My Help offers a place to share what’s weighing on your heart and find Scripture, prayer, reflection, and music to encourage you.</p>
-        <p>Whether you’re feeling anxious, lonely, discouraged, or simply in need of a reminder of God’s love, you can start right where you are. You don’t need to have everything figured out before you come.</p>
+        <p>Whether you’re feeling anxious, lonely, discouraged, or simply in need of a reminder of God’s love, you can start right where you are and find the help that you need.</p>
       </header>
 
       <section className="about-section" aria-labelledby="about-how">
