@@ -55,7 +55,9 @@ When a feature changes, update this README for new pages, navigation, deployment
 
 Auth0 handles sign-in, account creation, and password resets using Universal Login.
 Visitors can still request help without an account. The navigation includes Sign in,
-Sign out, and Saved. Save opens an editable name form: short requests such as
+Sign out, and Saved. Canceling Auth0 consent returns to Find Help and preserves any
+pending bundle draft without a persistent error banner. Other callback errors offer a
+styled return link, and the message disappears on leaving that page. Save opens an editable name form: short requests such as
 "sad" suggest "Sad", and longer requests use the primary interpretation tag.
 The backend exposes that tag as `primaryTag` in `/api/help`; no additional AI
 request is needed. Names are limited to 120 characters and can be changed later

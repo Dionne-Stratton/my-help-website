@@ -1,4 +1,4 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import AuthCallbackPage from './auth/AuthCallbackPage';
 import AccountNavigation from './auth/AccountNavigation';
 import SavedBundlesPage from './components/SavedBundlesPage';
 import { useEffect, useRef, useState } from "react";
@@ -14,7 +14,6 @@ import NavigationDrawer from "./components/NavigationDrawer";
 import "./App.css";
 
 function App() {
-  const { error: authError, isLoading: authLoading } = useAuth0();
   const [showCrisisHelpBadge, setShowCrisisHelpBadge] = useState(true);
   const { pathname } = useLocation();
   const pagePath = pathname.toLowerCase().replace(/\/+$/, "") || "/";
@@ -74,13 +73,12 @@ function App() {
         <CrisisHelpBadge onClose={() => setShowCrisisHelpBadge(false)} />
       )}
       <div id="page-content" className="page-content" ref={contentRef} tabIndex={-1}>
-        {authError && <p className="account-notice" role="alert">Sign-in could not finish. Please try signing in again.</p>}
         {/* Keep the request and bundle mounted when visitors browse the other pages. */}
         <div hidden={page !== "help"}><HelpFlow /></div>
         <Routes>
           <Route path="/" element={null} />
           <Route path="/saved" element={<SavedBundlesPage />} />
-          <Route path="/auth/callback" element={<main className="about-page"><p role="status">{authLoading ? "Finishing sign-in…" : "Returning to My Help…"}</p><Link to="/">Return to Find Help</Link></main>} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/about" element={<AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />} />
           <Route path="/my-story" element={<MyStoryPage />} />
           <Route path="/donate" element={<DonatePage />} />

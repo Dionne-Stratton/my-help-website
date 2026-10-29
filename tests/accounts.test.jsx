@@ -1,7 +1,8 @@
 import React, { StrictMode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import AuthCallbackPage from '../src/auth/AuthCallbackPage';
 import SaveBundleButton from '../src/features/help/SaveBundleButton';
 import SavedBundlesPage from '../src/components/SavedBundlesPage';
 import HelpFlow from '../src/features/help/HelpFlow';
@@ -155,4 +156,43 @@ it('uses the API primary tag to name a bundle for a longer request', async () =>
   fireEvent.click(screen.getByRole('button', { name: 'Find help' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Save this bundle' }, { timeout: 3000 }));
   expect(screen.getByRole('textbox', { name: 'Bundle name' }).value).toBe('Discouragement');
+});
+
+
+describe('sign-in callback recovery', () => {
+  const callback = () => render(<MemoryRouter initialEntries={['/auth/callback?error=access_denied&state=example']}>
+    <Routes>
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
+      <Route path="/" element={<HelpFlow />} />
+    </Routes>
+  </MemoryRouter>);
+
+  it('returns to the preserved bundle after canceled consent without showing an error', async () => {
+    rememberBundle(bundle, 'moment-1', 'Evening comfort');
+    mocks.auth.error = { error: 'access_denied', error_description: 'User canceled' };
+    callback();
+    expect(await screen.findByText('Always held')).toBeTruthy();
+    expect(screen.getByRole('textbox', { name: 'Bundle name' }).value).toBe('Evening comfort');
+    expect(screen.queryByRole('alert')).toBe(null);
+    expect(screen.queryByText('Sign-in could not finish')).toBe(null);
+  });
+
+  it('waits for Auth0 to process the callback before handling cancellation', () => {
+    mocks.auth.isLoading = true;
+    mocks.auth.error = { error: 'access_denied' };
+    callback();
+    expect(screen.getByRole('status').textContent).toBe('Finishing sign-in…');
+    expect(screen.queryByRole('heading', { name: 'Sign-in could not finish' })).toBe(null);
+  });
+
+  it('lets users leave a real sign-in error without refreshing or retaining a notice', async () => {
+    mocks.auth.error = new Error('Invalid state');
+    callback();
+    expect(screen.getByRole('heading', { name: 'Sign-in could not finish' })).toBeTruthy();
+    const link = screen.getByRole('link', { name: 'Return to Find Help' });
+    expect(link.className).toBe('about-cta');
+    fireEvent.click(link);
+    await waitFor(() => expect(screen.queryByRole('heading', { name: 'Sign-in could not finish' })).toBe(null));
+    expect(screen.queryByRole('alert')).toBe(null);
+  });
 });

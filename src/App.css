@@ -228,7 +228,6 @@
 .account-button:hover { background: var(--accent-soft); }
 .account-button:disabled { opacity: .6; cursor: wait; }
 .account-button:focus-visible, .saved-bundle-open:focus-visible, .saved-remove:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.account-notice { padding: 24px 60px; color: var(--text-soft); }
 .save-bundle-action { text-align: center; margin-top: 24px; }
 .save-bundle-action a { color: var(--accent); }
 .saved-bundle-list { list-style: none; padding: 0; }
