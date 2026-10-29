@@ -44,6 +44,7 @@ Treat the backend API contract as authoritative for response fields and resource
 ## Contact and donations
 
 - `src/components/ContactPage.jsx` posts JSON to the FormSubmit endpoint configured in `src/constants/contact.js`, with client-side feedback, a honeypot, and a request timeout. It supports text and public resource links, not uploads.
+- About explains optional free accounts, whole-bundle saving, names, and the Saved page, with a brief link to support My Help. Donate explains per-request AI processing costs and invites voluntary support to keep access free.
 - `src/components/DonatePage.jsx` links to PayPal via `PAYPAL_SUPPORT_URL` in `src/constants/donations.js`. PayPal handles payment; a frontend return URL is not proof of a successful transaction.
 
 ## Documentation maintenance

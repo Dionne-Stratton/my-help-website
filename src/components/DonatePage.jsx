@@ -15,11 +15,13 @@ export default function DonatePage() {
       <section className="about-section" aria-labelledby="donate-purpose">
         <h2 id="donate-purpose">What your contribution supports</h2>
         <p>My Help takes time and ongoing care to build and maintain. Contributions help support the person doing that work, along with the costs of keeping the app available.</p>
+        <p>Each time someone asks for help, My Help uses a small amount of AI processing to understand what they’re going through. The app then matches their needs with resources from the library. The Scripture, prayers, reflections, and songs are selected from that library, and each request has a small usage cost that adds up as more people use the app.</p>
+        <p>My hope is to keep My Help freely available to anyone who needs encouragement. If you’re able to give, your contribution helps cover those ongoing costs so people can keep coming here for help without needing a paid subscription.</p>
         <dl className="about-resources">
           <div><dt>Thoughtful resources</dt><dd>The time spent creating, selecting, and organizing Scripture, prayers, reflections, and music that point people toward Jesus.</dd></div>
           <div><dt>Continued development</dt><dd>Building useful features, improving the experience, and listening to what would help visitors most.</dd></div>
           <div><dt>Help when something goes wrong</dt><dd>Troubleshooting issues, fixing bugs, and keeping things working smoothly.</dd></div>
-          <div><dt>A place that stays available</dt><dd>Hosting and the services that keep My Help running and bring resources to visitors.</dd></div>
+          <div><dt>A place that stays freely available</dt><dd>AI processing for help requests, hosting, and the other services that keep My Help running as more people use it.</dd></div>
         </dl>
       </section>
 
