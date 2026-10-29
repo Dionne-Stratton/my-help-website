@@ -1,5 +1,7 @@
 # My Help - Frontend
 
+Public website: [My Help](https://myhelpguide.app).
+
 My Help is a faith-centered web application that helps visitors find relevant Scripture, prayers, reflections, and worship music for what they are facing. This repository contains the React frontend; interpretation, resource matching, and the `/api/help` endpoint live in the separate backend.
 
 ## Tech and development
@@ -78,27 +80,31 @@ with PKCE. A public SPA has no client secret, and none should be added to fronte
 variables. Saved-bundle API requests send an API access token with the audience
 `https://myhelp-api` and scopes `read:saved_bundles write:saved_bundles`.
 
-The configured frontend origins are `http://localhost:5173`,
-`http://127.0.0.1:5173`, and
+The public frontend origin is `https://myhelpguide.app`, registered in Auth0 with
+callback `https://myhelpguide.app/auth/callback` and the exact origin for logout,
+web origins, and allowed CORS origins. The additional configured development and
+Workers origins are `http://localhost:5173`, `http://127.0.0.1:5173`, and
 `https://my-help-website.dionnestratton.workers.dev`. Each callback URL is the
 origin plus `/auth/callback`; logout URLs and web origins are the exact origins.
 Local Vite uses strict port 5173 so it cannot silently choose an unregistered port.
-If deploying a custom domain, add its exact origin and callback in Auth0 before
-using it. Shared Auth0 branding now uses the current application name in English
+For any additional frontend domain, register its exact origin and callback in
+Auth0 before using it. Shared Auth0 branding now uses the current application name in English
 login/signup descriptions and consent messages. The music-site logo was removed
 from shared branding; hosted pages currently show Auth0’s generic icon instead.
-Application callbacks, credentials, and account connections were not changed.
+The public-domain callback was verified against hosted Auth0 login, and the user
+confirmed live sign-in from myhelpguide.app. Credentials and account connections
+were not changed.
 
 ### Test both repositories locally
 
-1. In `my-help-node-server`, check out `feature/auth0-saved-bundles` and run `npm ci`.
+1. In `my-help-node-server`, check out the updated `main` branch and run `npm ci`.
    On an existing database, apply only the new saved-bundle schema if it is missing:
    `npx wrangler d1 execute my-help-db --local --file=./api/migrations/003_saved_bundles.sql`.
    If this already succeeded, skip it. Do not rerun historical seeds just to test accounts.
    See the backend README for fresh-database setup.
 2. Start that backend with `npm run dev` (port 8787). Its Auth0 public settings are
    in `wrangler.toml`; keep the existing OpenAI key in the local `.dev.vars` file.
-3. In this frontend repository, check out the same branch, run `npm ci`, then
+3. In this frontend repository, check out the updated `main` branch, run `npm ci`, then
    `npm run dev`. The default development API URL is `http://localhost:8787`.
 4. Check anonymous help, then sign in, save a bundle, open it from Saved, reload,
    and sign back in if needed. Sign out and verify private bundles are hidden.

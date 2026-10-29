@@ -1,6 +1,8 @@
 # Current implementation
 
-This describes the `feature/auth0-saved-bundles` branch. It supersedes earlier V1 proposals about accounts, saving, and resource browsing. Branch changes are not automatically deployed.
+Public website: [My Help](https://myhelpguide.app).
+
+This describes the accounts and saved-bundle implementation merged into `main`. It supersedes earlier V1 proposals about accounts, saving, and resource browsing.
 
 ## Help and saving
 
@@ -14,6 +16,8 @@ This describes the `feature/auth0-saved-bundles` branch. It supersedes earlier V
 - Saved detail pages use the chosen name as the heading and display the stored snapshot without rerunning AI or matching.
 
 ## Accounts and API
+
+The public frontend is `https://myhelpguide.app`. Auth0 allows its exact origin for logout, web origins, and CORS, and `https://myhelpguide.app/auth/callback` for sign-in returns. This is registered alongside the development and Workers origins. The user confirmed sign-in works on the public domain; registering only the Workers address is insufficient for this site.
 
 Auth0 Universal Login handles sign-in, signup, and password reset. The SPA uses Authorization Code with PKCE and stores tokens in SDK memory. Saved API calls use an access token for `https://myhelp-api`, with read/write saved-bundle scopes. The backend verifies the token and derives ownership from its subject.
 
