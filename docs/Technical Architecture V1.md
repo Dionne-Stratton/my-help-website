@@ -1,3 +1,5 @@
+> Historical design proposal. For implemented accounts, whole-bundle saving, and current scope, see [Current implementation](Current%20Implementation.md). Individual-resource saving, a permanent guest library, and independent resource browsing described below are not implemented.
+
 Technical Architecture V1
 Version 1 will be built as a web-first product with a shared backend architecture that can later support a mobile app.
 The system should prioritize simplicity, maintainability, and low operating cost while leaving room for future expansion.
@@ -103,68 +105,167 @@ accessing saved items across devices
 future personalization features
 Recommended v1 behavior:
 guest users can ask for help immediately
-when a guest clicks Save, they are prompted to sign up or sign in
-Potential auth provider:
-Auth0
-Auth0 is a reasonable choice because it can support both the web version and a future mobile app.
+when a guest clicks Save, they are prom…646 tokens truncated…below are not implemented.
 
-Saving Model
-In Version 1:
-help requests do not require an account
-saving resources does require an account
-This keeps the core experience frictionless while simplifying saved-resource persistence.
-Saved data may include:
-saved scriptures
-saved prayers
-saved songs
-saved reflections
+User Flows V1
 
-Analytics
-Version 1 should include basic analytics to understand product usage.
-Recommended analytics tool:
-Google Analytics
-Important events to track:
-help request submitted
-interpreted themes returned
-resource opened
-resource saved
-sign-up flow started
-sign-up completed
-Analytics should help answer questions such as:
-which needs are most common
-which resource types are used most
-how many users are guests vs signed-in users
-how often people save resources
+Flow 1 — Guest User Requests Help
 
-Admin and Content Management
-Version 1 does not require a full admin dashboard.
-Content can initially be managed manually through the database and storage layer.
-However, the architecture should be designed so an admin interface can be added later without major restructuring.
-Future admin capabilities may include:
-creating and editing resources
-managing tags
-publishing/unpublishing content
-reviewing content quality
-managing contributor content in later versions
+This is the most important flow in the entire product.
 
-High-Level Request Flow
-User opens web app
-User submits a message describing what they are going through
-Frontend sends request to backend
-Backend sends user message to AI interpretation service
-AI returns relevant themes
-Backend queries database for tagged resources matching those themes
-Backend assembles a help bundle
-Frontend displays scripture, prayer, song, and reflection
-If user clicks save, frontend prompts login if not authenticated
-Backend stores saved resource in the user account
+User visits the website.
 
-Design Principles
-web first, mobile later
-Cloudflare-first infrastructure where practical
-AI for interpretation, not primary content generation
-curated content over improvised output
-immediate guest access to help
-account required only for persistent saving
-architecture should stay simple enough to ship quickly
+The home screen presents a simple prompt such as:
 
+“What are you going through?”
+
+The user enters a message describing their situation.
+
+Examples:
+
+“I feel anxious.”
+
+“I’m discouraged.”
+
+“I feel stuck and frustrated.”
+
+“I’m struggling with temptation.”
+
+The message is sent to the backend.
+
+AI interprets the message and identifies relevant emotional or spiritual themes.
+
+Example output:
+
+Themes identified:
+
+anxiety
+
+fear
+
+uncertainty
+
+The backend queries the resource database using those themes.
+
+The system assembles a help bundle containing curated resources such as:
+
+Scripture passage
+
+Prayer
+
+Worship song
+
+Short devotional reflection
+
+The results page displays the bundle in a clear structure:
+
+Scripture
+Relevant passage
+
+Prayer
+Short prayer
+
+Worship
+Suggested song with play link
+
+Reflection
+Devotional excerpt
+
+The user can interact with each resource:
+
+read
+
+listen
+
+expand
+
+save
+
+Flow 2 — Guest User Saves a Resource
+
+The user selects Save on a resource.
+
+If the user is not logged in, the system presents options:
+
+Option A — Save to this device
+The resource is stored locally on the device.
+
+Option B — Create an account
+The resource will be saved across devices.
+
+If the user chooses local save, the resource is added to a local saved list.
+
+The user can later access saved items through Saved Resources.
+
+Flow 3 — User Creates an Account
+
+Accounts are optional and primarily used for cross-device saving.
+
+User selects Sign Up / Sign In.
+
+User chooses authentication method (example):
+
+email
+
+passwordless link
+
+social login (optional future option)
+
+After authentication:
+
+local saved items can optionally sync to the account
+
+user gains persistent saved library across devices.
+
+Flow 4 — Returning User Accesses Saved Resources
+
+User visits the site again.
+
+If signed in:
+
+saved resources load from the account.
+
+If using device storage:
+
+saved resources load from local storage.
+
+User opens Saved Resources.
+
+The library shows previously saved items such as:
+
+prayers
+
+scriptures
+
+devotionals
+
+songs
+
+User can revisit or remove saved resources.
+
+Flow 5 — New Visitor Exploring the Site
+
+Some users may want to explore before asking for help.
+
+User visits the homepage.
+
+In addition to the main prompt, optional navigation allows browsing resources such as:
+
+popular prayers
+
+devotionals
+
+scripture collections
+
+worship songs
+
+The user can read or listen to content without submitting a request.
+
+Optional Future Flow (Not Version 1)
+
+These are not required for MVP but may be added later.
+
+• sharing resource bundles
+• church integrations
+• personalized recommendations
+• deeper AI-guided conversations

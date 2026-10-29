@@ -1,3 +1,5 @@
+import { suggestBundleTitle } from "./bundleTitle";
+import { clearBundleDraft, restoreBundle } from "./bundleDraft";
 import { useState } from "react";
 import { submitHelpRequest } from "../../api/helpApi";
 
@@ -10,12 +12,14 @@ function generateSessionId() {
 }
 
 export default function HelpFlow() {
-  const [status, setStatus] = useState("idle"); // idle | loading | loading-exit | results | results-exit | error
+  const [draft] = useState(restoreBundle);
+  const [status, setStatus] = useState(draft ? "results" : "idle"); // idle | loading | loading-exit | results | results-exit | error
   const [input, setInput] = useState("");
-  const [bundle, setBundle] = useState(null);
+  const [bundle, setBundle] = useState(draft?.bundle ?? null);
+  const [suggestedTitle, setSuggestedTitle] = useState(draft?.suggestedTitle ?? 'A saved moment');
   const [debug, setDebug] = useState(null);
   const [error, setError] = useState(null);
-  const [sessionId, setSessionId] = useState(generateSessionId());
+  const [sessionId, setSessionId] = useState(() => draft?.sessionId ?? generateSessionId());
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
@@ -38,6 +42,7 @@ export default function HelpFlow() {
       ]);
 
       setBundle(data.bundle);
+      setSuggestedTitle(suggestBundleTitle(input, data.primaryTag ?? data.interpretation?.primary ?? data.bundle?.problemTags?.[0]));
       setDebug(data.debug ?? null);
       setStatus("loading-exit");
 
@@ -51,11 +56,13 @@ export default function HelpFlow() {
   };
 
   const handleStartOver = () => {
+    clearBundleDraft();
     setStatus("results-exit");
 
     setTimeout(() => {
       setInput("");
       setBundle(null);
+      setSuggestedTitle('A saved moment');
       setDebug(null);
       setError(null);
       setSessionId(generateSessionId());
@@ -81,6 +88,9 @@ export default function HelpFlow() {
     return (
       <HelpBundleView
         bundle={bundle}
+        sessionId={sessionId}
+        suggestedTitle={suggestedTitle}
+        initiallyEditing={Boolean(draft && draft.sessionId === sessionId)}
         debug={debug}
         onStartOver={handleStartOver}
         isExiting={status === "results-exit"}

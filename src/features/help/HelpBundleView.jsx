@@ -1,10 +1,15 @@
+import SaveBundleButton from "./SaveBundleButton";
 import SongResourceCard from "./SongResourceCard";
 import GospelInvitation from "./GospelInvitation";
 import DebugPanel from "./DebugPanel";
-import logo from "../../assets/logo.png";
 
 export default function HelpBundleView({
   bundle,
+  sessionId,
+  suggestedTitle,
+  initiallyEditing = false,
+  startOverLabel = "Create a new moment",
+  heading = "Your help for this moment",
   //   debug,
   onStartOver,
   isExiting = false,
@@ -24,12 +29,9 @@ export default function HelpBundleView({
       }}
     >
       <div style={styles.container}>
-        <div style={styles.logoWrapper}>
-          <img src={logo} alt="My Help" style={styles.logo} />
-        </div>
-
         <header style={styles.header}>
-          <h1 style={styles.heading}>Your help for this moment</h1>
+          <h1 style={styles.heading}>{heading}</h1>
+          {sessionId && <SaveBundleButton key={sessionId} bundle={bundle} sessionId={sessionId} suggestedTitle={suggestedTitle} initiallyEditing={initiallyEditing} />}
         </header>
 
         <section style={styles.card}>
@@ -83,7 +85,7 @@ export default function HelpBundleView({
 
         <div style={styles.actions}>
           <button style={styles.secondaryButton} onClick={onStartOver}>
-            Create a new moment
+            {startOverLabel}
           </button>
         </div>
       </div>
@@ -101,16 +103,6 @@ const styles = {
   container: {
     maxWidth: "720px",
     margin: "0 auto",
-  },
-  logoWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "18px",
-  },
-  logo: {
-    height: "64px",
-    objectFit: "contain",
-    opacity: 0.85,
   },
   header: {
     textAlign: "center",

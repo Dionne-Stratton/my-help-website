@@ -1,3 +1,5 @@
+> Historical design proposal. For implemented accounts, whole-bundle saving, and current scope, see [Current implementation](Current%20Implementation.md). Individual-resource saving, a permanent guest library, and independent resource browsing described below are not implemented.
+
 MVP Feature Scope V1
 
 The goal of Version 1 is to create a simple, reliable tool that helps users turn toward God during moments of emotional or spiritual struggle.

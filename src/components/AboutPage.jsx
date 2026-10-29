@@ -29,11 +29,18 @@ export default function AboutPage({ onShowCrisisHelp }) {
         <p>You don’t have to work through everything. Start with the verse, prayer, reflection, or song that meets you where you are. If something else is weighing on you, you can create a new moment and share again.</p>
       </section>
 
+      <section className="about-section" aria-labelledby="about-saved">
+        <h2 id="about-saved">Keep encouragement close</h2>
+        <p>If you’d like to return to a help bundle, select <strong>Save this bundle</strong> below its heading. You can use the suggested name or choose one that helps you remember what it was for, such as “Peace for tomorrow” or “When I feel discouraged.”</p>
+        <p>Sign in or create a free account to save your bundles and open them again on any device. You’ll find them in <Link to="/saved">Saved</Link>, where you can also rename or remove them. You can ask for help without an account whenever you like.</p>
+      </section>
+
       <section className="about-section" aria-labelledby="about-heart">
         <h2 id="about-heart">An invitation to turn toward Jesus</h2>
         <p>My Help is rooted in the Bible and the hope we have in Jesus Christ. Its heart is to help you draw near to Him and remember His love and presence, especially in the moments when you feel alone.</p>
         <p>Whether you’ve walked with Jesus for years or are just beginning to explore faith, you’re welcome here. These resources offer spiritual encouragement alongside the care and support of trusted people in your life.</p>
         <p>You can try My Help without creating an account. Bring what’s on your heart, take a quiet moment, and see what encouragement you find.</p>
+        <p>My Help is freely available, with a small processing cost each time someone requests a bundle. If you’re able, <Link to="/donate">consider supporting My Help</Link> to help keep this encouragement available to everyone.</p>
         <Link to="/" className="about-cta">Find help for this moment</Link>
       </section>
       <footer className="about-disclaimer">

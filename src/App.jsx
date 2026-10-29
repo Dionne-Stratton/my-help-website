@@ -1,3 +1,6 @@
+import AuthCallbackPage from './auth/AuthCallbackPage';
+import AccountNavigation from './auth/AccountNavigation';
+import SavedBundlesPage from './components/SavedBundlesPage';
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import CrisisHelpBadge from "./components/CrisisHelpBadge";
@@ -14,7 +17,7 @@ function App() {
   const [showCrisisHelpBadge, setShowCrisisHelpBadge] = useState(true);
   const { pathname } = useLocation();
   const pagePath = pathname.toLowerCase().replace(/\/+$/, "") || "/";
-  const page = { "/": "help", "/about": "about", "/my-story": "story", "/donate": "donate", "/contact": "contact" }[pagePath] || "help";
+  const page = { "/": "help", "/about": "about", "/my-story": "story", "/donate": "donate", "/contact": "contact", "/saved": "saved", "/auth/callback": "auth" }[pagePath] || "help";
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ function App() {
   }, [pathname]);
 
   useEffect(() => {
-    document.title = page === "story" ? "My Story | My Help" : page === "contact" ? "Contact My Help" : page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
+    document.title = page === "saved" ? "Saved bundles | My Help" : page === "story" ? "My Story | My Help" : page === "contact" ? "Contact My Help" : page === "donate" ? "Support My Help" : page === "about" ? "About My Help" : "My Help";
   }, [page]);
 
   return (
@@ -63,6 +66,7 @@ function App() {
           <span>Contact</span>
         </NavLink>
         </div>
+        <AccountNavigation />
         </>}>
 
       {showCrisisHelpBadge && (
@@ -73,6 +77,8 @@ function App() {
         <div hidden={page !== "help"}><HelpFlow /></div>
         <Routes>
           <Route path="/" element={null} />
+          <Route path="/saved" element={<SavedBundlesPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/about" element={<AboutPage onShowCrisisHelp={() => setShowCrisisHelpBadge(true)} />} />
           <Route path="/my-story" element={<MyStoryPage />} />
           <Route path="/donate" element={<DonatePage />} />
