@@ -11,8 +11,8 @@ export async function savedBundlesRequest(getAccessTokenSilently, path = '', opt
   if (!response.ok) throw new Error(data?.error || 'Unable to access saved bundles right now.');
   return data;
 }
-export function saveBundle(getToken, bundle, sourceId) {
+export function saveBundle(getToken, bundle, sourceId, title) {
   const resourceIds = Object.fromEntries(['scripture', 'prayer', 'reflection', 'song']
     .map(slot => [slot, (bundle[slot] ?? []).map(resource => resource.id)]));
-  return savedBundlesRequest(getToken, '', { method: 'POST', body: JSON.stringify({ sourceId, resourceIds }) });
+  return savedBundlesRequest(getToken, '', { method: 'POST', body: JSON.stringify({ sourceId, resourceIds, title }) });
 }

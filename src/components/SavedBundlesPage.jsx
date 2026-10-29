@@ -16,6 +16,8 @@ function SavedBundles({ auth }) {
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(true);
   const [removing, setRemoving] = useState(null);
+  const [renaming, setRenaming] = useState(null);
+  const [newTitle, setNewTitle] = useState('');
   useEffect(() => {
     if (!isAuthenticated) return;
     let active = true;
@@ -36,7 +38,7 @@ function SavedBundles({ auth }) {
     {error && <p role="alert">{error}</p>}
   </main>;
   if (selected) return <><div className="saved-back"><button className="account-button" onClick={() => setSelected(null)}>Back to saved bundles</button></div>
-    <HelpBundleView bundle={selected.bundle} onStartOver={() => setSelected(null)} startOverLabel="Back to saved bundles" /></>;
+    <HelpBundleView heading={selected.title} bundle={selected.bundle} onStartOver={() => setSelected(null)} startOverLabel="Back to saved bundles" /></>;
   return <main className="about-page"><h1>Your saved bundles</h1>
     <p>Return to the Scripture, prayers, reflections, and songs you have saved.</p>
     {error && <p role="alert">{error}</p>}
@@ -46,12 +48,32 @@ function SavedBundles({ auth }) {
       <button className="saved-bundle-open" disabled={busy} onClick={() => run(async () => {
         const data = await savedBundlesRequest(getAccessTokenSilently, `/${item.id}`); setSelected(data.item);
       })}>{item.title}<span>{new Date(item.createdAt).toLocaleDateString()}</span></button>
+      {renaming === item.id ? <form className="bundle-name-form" onSubmit={event => {
+        event.preventDefault();
+        if (!newTitle.trim()) return;
+        run(async () => {
+          const data = await savedBundlesRequest(getAccessTokenSilently, `/${item.id}`, {
+            method: 'PATCH', body: JSON.stringify({ title: newTitle.trim() }),
+          });
+          setItems(current => current.map(row => row.id === item.id ? { ...row, title: data.item.title } : row));
+          setRenaming(null);
+        });
+      }}>
+        <label htmlFor={`bundle-name-${item.id}`}>Bundle name</label>
+        <input id={`bundle-name-${item.id}`} type="text" value={newTitle} onChange={event => setNewTitle(event.target.value)} maxLength={120} required disabled={busy} />
+        <div className="bundle-name-actions">
+          <button type="submit" className="account-button" disabled={busy || !newTitle.trim()}>Save name</button>
+          <button type="button" className="account-button" disabled={busy} onClick={() => setRenaming(null)}>Cancel</button>
+        </div>
+      </form> : <button type="button" className="saved-remove" disabled={busy} onClick={() => {
+        setRenaming(item.id); setNewTitle(item.title); setRemoving(null); setError(null);
+      }} aria-label={`Rename ${item.title}`}>Rename</button>}
       {removing === item.id ? <div><p>Remove this saved bundle from your account?</p>
         <button className="account-button" disabled={busy} onClick={() => run(async () => {
           await savedBundlesRequest(getAccessTokenSilently, `/${item.id}`, { method: 'DELETE' });
           setItems(current => current.filter(row => row.id !== item.id)); setRemoving(null);
         })}>Confirm removal</button> <button className="account-button" onClick={() => setRemoving(null)}>Keep bundle</button>
-      </div> : <button className="saved-remove" disabled={busy} onClick={() => setRemoving(item.id)} aria-label={`Remove ${item.title}`}>Remove</button>}
+      </div> : <button className="saved-remove" disabled={busy} onClick={() => { setRemoving(item.id); setRenaming(null); }} aria-label={`Remove ${item.title}`}>Remove</button>}
     </li>)}</ul>
     {cursor && <button className="account-button" disabled={busy} onClick={() => run(async () => {
       const data = await savedBundlesRequest(getAccessTokenSilently, `?before=${encodeURIComponent(cursor)}`);
