@@ -111,7 +111,7 @@ export default function NavigationDrawer({ navigation, children }) {
                 setExpanded(false);
               }
               closeTimer.current = null;
-            }, 3000);
+            }, 1500);
           }
         }}
       >
