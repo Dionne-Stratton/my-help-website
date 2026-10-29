@@ -8,9 +8,19 @@ export default function NavigationDrawer({ navigation, children }) {
   const navRef = useRef(null);
   const gesture = useRef(null);
   const suppressClickUntil = useRef(0);
+  const pointerInside = useRef(false);
+  const closeTimer = useRef(null);
   const open = hovered || expanded || focused;
 
+  function cancelDelayedClose() {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  }
+
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
   function close() {
+    cancelDelayedClose();
     setHovered(false);
     setExpanded(false);
     setFocused(false);
@@ -21,6 +31,7 @@ export default function NavigationDrawer({ navigation, children }) {
     if (!open) return;
     function onKeyDown(event) {
       if (event.key === "Escape") {
+        clearTimeout(closeTimer.current);
         setHovered(false);
         setExpanded(false);
         setFocused(false);
@@ -29,6 +40,7 @@ export default function NavigationDrawer({ navigation, children }) {
     }
     function onOutsidePress(event) {
       if (!event.target.closest(".navigation-panel")) {
+        clearTimeout(closeTimer.current);
         setHovered(false);
         setExpanded(false);
         setFocused(false);
@@ -44,6 +56,7 @@ export default function NavigationDrawer({ navigation, children }) {
   }, [open]);
 
   function startSwipe(event) {
+    if (event.pointerType !== "mouse") pointerInside.current = false;
     if (event.pointerType === "mouse" || event.target.closest("input, textarea, select, [contenteditable]")) return;
     const inPanel = navRef.current?.contains(event.target) || toggleRef.current?.contains(event.target);
     if (!inPanel && event.clientX > 24) return;
@@ -82,10 +95,24 @@ export default function NavigationDrawer({ navigation, children }) {
       <div
         className="navigation-panel"
         onPointerEnter={(event) => {
-          if (event.pointerType === "mouse" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) setHovered(true);
+          if (event.pointerType === "mouse" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+            pointerInside.current = true;
+            cancelDelayedClose();
+            setHovered(true);
+          }
         }}
         onPointerLeave={(event) => {
-          if (event.pointerType === "mouse") setHovered(false);
+          if (event.pointerType === "mouse") {
+            pointerInside.current = false;
+            cancelDelayedClose();
+            closeTimer.current = setTimeout(() => {
+              if (!pointerInside.current) {
+                setHovered(false);
+                setExpanded(false);
+              }
+              closeTimer.current = null;
+            }, 3000);
+          }
         }}
       >
         <div className="navigation-edge" aria-hidden="true" />
@@ -116,7 +143,15 @@ export default function NavigationDrawer({ navigation, children }) {
               setExpanded(false);
             }
           }}
-          onClick={(event) => { if (event.target.closest("a")) close(); }}
+          onClick={(event) => {
+            if (!event.target.closest("a")) return;
+            if (pointerInside.current) {
+              cancelDelayedClose();
+              setHovered(true);
+              setExpanded(false);
+              setFocused(false);
+            } else close();
+          }}
         >
           {navigation}
         </nav>
