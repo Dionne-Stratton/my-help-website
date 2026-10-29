@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo-alternative.webp";
 
 export default function HelpInputScreen({ input, setInput, onSubmit }) {
   const handleSubmit = (e) => {
@@ -22,6 +22,7 @@ export default function HelpInputScreen({ input, setInput, onSubmit }) {
     >
       <img
         src={logo}
+        className="app-logo"
         alt="My Help"
         style={{
           height: "150px",
