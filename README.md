@@ -52,12 +52,20 @@ When a feature changes, update this README for new pages, navigation, deployment
 
 Auth0 handles sign-in, account creation, and password resets using Universal Login.
 Visitors can still request help without an account. The navigation includes Sign in,
-Sign out, and Saved; a bundle's Save button prompts guests to sign in. A temporary
-sessionStorage draft preserves only the resource bundle and source ID across that
-redirect for 30 minutes, not the visitor's original input. After returning, press
-Save to confirm saving to the signed-in account. Create a new moment and sign-out
-clear this draft. Tokens stay in SDK memory, not localStorage; a page reload may
-require sign-in again when a browser prevents Auth0's silent session check.
+Sign out, and Saved. Save opens an editable name form: short requests such as
+"sad" suggest "Sad", and longer requests use the primary interpretation tag.
+The backend exposes that tag as `primaryTag` in `/api/help`; no additional AI
+request is needed. Names are limited to 120 characters and can be changed later
+with Rename in Saved. Separate requests may have the same name without replacing
+each other. The chosen name appears when opening a saved bundle as well.
+
+A temporary sessionStorage draft preserves the resource bundle, source ID, and
+chosen name across sign-in for 30 minutes, not the original help input. Returning
+from sign-in reopens the name form; confirm Save bundle to persist it to the signed-in
+account. Create a new moment and sign-out clear this draft. Tokens stay in SDK
+memory, not localStorage; a reload may require sign-in again when a browser
+prevents Auth0's silent session check. Existing saved bundles can be renamed;
+this naming update requires no new database migration.
 
 Auth0's configured public values are in `src/auth/config.js` and can be overridden
 with the `VITE_AUTH0_*` variables in `.env.example`. The app uses Authorization Code
@@ -97,3 +105,5 @@ pushing a feature branch.
 Run `npm test`, `npm run lint`, and `npm run build` for validation. Saved-list and
 button tests mock Auth0; backend tests independently verify signed JWTs and real
 SQLite ownership queries. A real-user round trip remains a release smoke test.
+
+When testing locally, `.env.local` can set `VITE_API_BASE_URL=http://localhost:8787`; this overrides an older `.env` value pointing at the deployed backend. Restart Vite after editing environment files.

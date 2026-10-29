@@ -1,6 +1,6 @@
 const key = 'myhelp:bundle-draft';
-export function rememberBundle(bundle, sessionId) {
-  try { sessionStorage.setItem(key, JSON.stringify({ bundle, sessionId, expires: Date.now() + 30 * 60 * 1000 })); } catch { /* Saving remains optional when storage is unavailable. */ }
+export function rememberBundle(bundle, sessionId, suggestedTitle = 'A saved moment') {
+  try { sessionStorage.setItem(key, JSON.stringify({ bundle, sessionId, suggestedTitle, expires: Date.now() + 30 * 60 * 1000 })); } catch { /* Saving remains optional when storage is unavailable. */ }
 }
 export function restoreBundle() {
   try {

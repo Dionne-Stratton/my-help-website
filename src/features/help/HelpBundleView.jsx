@@ -7,7 +7,10 @@ import logo from "../../assets/logo.png";
 export default function HelpBundleView({
   bundle,
   sessionId,
+  suggestedTitle,
+  initiallyEditing = false,
   startOverLabel = "Create a new moment",
+  heading = "Your help for this moment",
   //   debug,
   onStartOver,
   isExiting = false,
@@ -32,7 +35,7 @@ export default function HelpBundleView({
         </div>
 
         <header style={styles.header}>
-          <h1 style={styles.heading}>Your help for this moment</h1>
+          <h1 style={styles.heading}>{heading}</h1>
         </header>
 
         <section style={styles.card}>
@@ -84,7 +87,7 @@ export default function HelpBundleView({
 
         {/* <DebugPanel debug={debug} /> */}
 
-        {sessionId && <SaveBundleButton key={sessionId} bundle={bundle} sessionId={sessionId} />}
+        {sessionId && <SaveBundleButton key={sessionId} bundle={bundle} sessionId={sessionId} suggestedTitle={suggestedTitle} initiallyEditing={initiallyEditing} />}
 
         <div style={styles.actions}>
           <button style={styles.secondaryButton} onClick={onStartOver}>

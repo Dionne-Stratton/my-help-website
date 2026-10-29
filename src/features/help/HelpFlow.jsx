@@ -1,3 +1,4 @@
+import { suggestBundleTitle } from "./bundleTitle";
 import { clearBundleDraft, restoreBundle } from "./bundleDraft";
 import { useState } from "react";
 import { submitHelpRequest } from "../../api/helpApi";
@@ -15,6 +16,7 @@ export default function HelpFlow() {
   const [status, setStatus] = useState(draft ? "results" : "idle"); // idle | loading | loading-exit | results | results-exit | error
   const [input, setInput] = useState("");
   const [bundle, setBundle] = useState(draft?.bundle ?? null);
+  const [suggestedTitle, setSuggestedTitle] = useState(draft?.suggestedTitle ?? 'A saved moment');
   const [debug, setDebug] = useState(null);
   const [error, setError] = useState(null);
   const [sessionId, setSessionId] = useState(() => draft?.sessionId ?? generateSessionId());
@@ -40,6 +42,7 @@ export default function HelpFlow() {
       ]);
 
       setBundle(data.bundle);
+      setSuggestedTitle(suggestBundleTitle(input, data.primaryTag ?? data.interpretation?.primary ?? data.bundle?.problemTags?.[0]));
       setDebug(data.debug ?? null);
       setStatus("loading-exit");
 
@@ -59,6 +62,7 @@ export default function HelpFlow() {
     setTimeout(() => {
       setInput("");
       setBundle(null);
+      setSuggestedTitle('A saved moment');
       setDebug(null);
       setError(null);
       setSessionId(generateSessionId());
@@ -85,6 +89,8 @@ export default function HelpFlow() {
       <HelpBundleView
         bundle={bundle}
         sessionId={sessionId}
+        suggestedTitle={suggestedTitle}
+        initiallyEditing={Boolean(draft && draft.sessionId === sessionId)}
         debug={debug}
         onStartOver={handleStartOver}
         isExiting={status === "results-exit"}
