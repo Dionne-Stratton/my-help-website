@@ -92,6 +92,19 @@
 }
 .about-page h2 { font-size: 1.35rem; line-height: 1.35; margin-top: 0; }
 .about-page p, .about-page dd { color: var(--text-soft); }
+.about-page p a:not(.about-cta),
+.about-page p a:not(.about-cta):visited {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+.about-page p a:not(.about-cta):hover { color: var(--text-main); }
+.about-page p a:not(.about-cta):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
 .about-section {
   margin-top: 28px;
   padding: 28px;
