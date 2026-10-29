@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
 import { CONTACT_FORM_ENDPOINT } from "../constants/contact";
 
 const reasons = [
@@ -56,8 +55,6 @@ export default function ContactPage() {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <img src={logo} alt="My Help" className="about-logo" />
-        <p className="about-eyebrow">Contact</p>
         <h1>We’d love to hear from you.</h1>
         <p>Have a question, an idea, or a word of encouragement? Share what’s on your mind, tell us about a problem, or suggest a resource that could encourage someone else.</p>
       </header>

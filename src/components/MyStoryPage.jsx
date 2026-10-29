@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import storyBanner from "../assets/my-story-banner.webp";
 
 export default function MyStoryPage() {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <img src={logo} alt="My Help" className="about-logo" />
-        <p className="about-eyebrow">My Story</p>
         <h1>Help for the moment you’re in.</h1>
+        <img src={storyBanner} alt="" className="story-banner" width={2048} height={768} />
         <p>I’m the developer behind Clear Path Creative and the person who created My Help. The idea grew out of something I needed in my own life: a way to find encouragement in the very moment I was struggling.</p>
       </header>
 

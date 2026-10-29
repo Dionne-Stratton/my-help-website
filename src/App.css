@@ -1,7 +1,9 @@
 .app-shell {
   --rail-width: 132px;
-  padding-inline: var(--rail-width);
+  padding-inline: 0;
+  transition: padding-left 240ms ease;
 }
+.app-shell.nav-is-open { padding-left: var(--rail-width); }
 .side-nav {
   position: fixed;
   inset: 0 auto 0 0;
@@ -9,12 +11,32 @@
   z-index: 40;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px;
+  gap: 16px;
+  padding: 56px 12px 12px;
   border-right: 1px solid var(--border);
   background: var(--bg);
   overflow-y: auto;
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 240ms ease, visibility 240ms;
+}
+.nav-is-open .side-nav { transform: translateX(0); visibility: visible; }
+.side-nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(175, 238, 249, 0.25);
+}
+.side-nav-brand img { display: block; width: 88px; height: 80px; max-width: 100%; object-fit: contain; }
+.side-nav-links {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 12px;
+  margin-block: auto;
 }
 .side-nav-link {
   display: flex;
@@ -37,7 +59,7 @@
   background: var(--accent-soft);
   border-color: rgba(175, 238, 249, 0.3);
 }
-.side-nav-link:focus-visible, .about-cta:focus-visible, .skip-link:focus-visible {
+.side-nav-brand:focus-visible, .side-nav-link:focus-visible, .about-cta:focus-visible, .skip-link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -46,7 +68,7 @@
 .skip-link {
   position: fixed;
   top: 8px;
-  left: calc(var(--rail-width) + 8px);
+  left: 52px;
   z-index: 100;
   transform: translateY(-200%);
   padding: 12px;
@@ -62,7 +84,6 @@
   line-height: 1.75;
 }
 .about-intro { text-align: center; }
-.about-logo { height: 88px; max-width: 100%; object-fit: contain; }
 .about-eyebrow { color: var(--accent); font-weight: 600; }
 .about-page h1 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
@@ -101,7 +122,9 @@
 .about-cta:hover { background: rgba(175, 238, 249, 0.2); }
 @media (max-width: 700px) {
   .app-shell { --rail-width: 56px; padding-right: 0; }
-  .side-nav { padding: 6px; gap: 10px; }
+  .side-nav { padding: 56px 6px 6px; gap: 10px; }
+  .side-nav-brand img { width: 40px; height: 40px; }
+  .side-nav-links { gap: 10px; }
   .side-nav-link { min-height: 44px; padding: 8px; }
   .side-nav-link span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .about-page { padding: 112px 12px 40px; }
@@ -141,3 +164,46 @@
 .contact-form [role="alert"] { padding: 12px; border: 1px solid var(--accent); border-radius: 10px; }
 .contact-honeypot { display: none; }
 .contact-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.story-banner {
+  display: block;
+  width: 100%;
+  height: clamp(110px, 18vw, 160px);
+  object-fit: cover;
+  object-position: center 60%;
+  border-radius: 14px;
+  margin-bottom: 28px;
+}
+
+.navigation-edge {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 12px;
+  z-index: 39;
+  touch-action: pan-y;
+}
+.navigation-toggle {
+  position: fixed;
+  top: 4px;
+  left: 4px;
+  z-index: 41;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-soft);
+  touch-action: pan-y;
+}
+.navigation-toggle svg { width: 20px; height: 20px; }
+.navigation-toggle:hover, .navigation-toggle:active { transform: none; }
+.navigation-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.side-nav { touch-action: pan-y; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell, .side-nav { transition: none; }
+}
+
+.app-logo { border-radius: 14px; }

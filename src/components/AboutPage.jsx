@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import aboutBanner from "../assets/about-banner.webp";
 
 export default function AboutPage({ onShowCrisisHelp }) {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <img src={logo} alt="My Help" className="about-logo" />
-        <p className="about-eyebrow">About My Help</p>
         <h1>A little encouragement for what feels heavy.</h1>
+        <img src={aboutBanner} alt="" className="story-banner" width={2032} height={774} />
         <p>Some days, finding the words to pray or knowing where to turn can feel hard. My Help offers a place to share what’s weighing on your heart and find Scripture, prayer, reflection, and music to encourage you.</p>
         <p>Whether you’re feeling anxious, lonely, discouraged, or simply in need of a reminder of God’s love, you can start right where you are and find the help that you need.</p>
       </header>
