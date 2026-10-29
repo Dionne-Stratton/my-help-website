@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import donateBanner from "../assets/donate-banner.webp";
 import { PAYPAL_SUPPORT_URL } from "../constants/donations";
 
 export default function DonatePage() {
@@ -6,6 +7,7 @@ export default function DonatePage() {
     <main className="about-page">
       <header className="about-intro">
         <h1>Help encouragement reach another heart.</h1>
+        <img src={donateBanner} alt="" className="story-banner" width={2172} height={724} />
         <p>Sometimes a verse, a prayer, or a song can help us pause and turn toward Jesus in the middle of a difficult day. My Help brings those resources together for people seeking comfort, hope, and a reminder of God’s love.</p>
         <p>If My Help has encouraged you and you’d like to support the work behind it, you’re welcome to make a voluntary contribution. Your support helps care for this space and continue developing it for the people who come here.</p>
       </header>
