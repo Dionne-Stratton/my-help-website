@@ -107,3 +107,5 @@ button tests mock Auth0; backend tests independently verify signed JWTs and real
 SQLite ownership queries. A real-user round trip remains a release smoke test.
 
 When testing locally, `.env.local` can set `VITE_API_BASE_URL=http://localhost:8787`; this overrides an older `.env` value pointing at the deployed backend. Restart Vite after editing environment files.
+
+Bundle result pages omit the older small logo. The Save control and editable-name form sit directly below the page heading, before the Scripture and other resources.
