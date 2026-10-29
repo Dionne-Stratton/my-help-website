@@ -7,6 +7,7 @@ import DonatePage from "./components/DonatePage";
 import ContactPage from "./components/ContactPage";
 import MyStoryPage from "./components/MyStoryPage";
 import logo from "./assets/logo.png";
+import NavigationDrawer from "./components/NavigationDrawer";
 import "./App.css";
 
 function App() {
@@ -26,9 +27,7 @@ function App() {
   }, [page]);
 
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#page-content">Skip to content</a>
-      <nav className="side-nav" aria-label="Main navigation">
+    <NavigationDrawer navigation={<>
         <Link to="/" className="side-nav-brand" aria-label="My Help home" title="My Help home">
           <img src={logo} alt="My Help" />
         </Link>
@@ -64,7 +63,8 @@ function App() {
           <span>Contact</span>
         </NavLink>
         </div>
-      </nav>
+        </>}>
+
       {showCrisisHelpBadge && (
         <CrisisHelpBadge onClose={() => setShowCrisisHelpBadge(false)} />
       )}
@@ -81,7 +81,7 @@ function App() {
         </Routes>
         <div hidden={page !== "contact"}><ContactPage /></div>
       </div>
-    </div>
+    </NavigationDrawer>
   );
 }
 
