@@ -23,7 +23,7 @@ The implemented routes are public `POST /api/help` and authenticated `GET`/`POST
 
 - Independent browsing without a help request remains undecided. No browse UI or API is included in this branch.
 - Scoring, weighting, and resource selection can be tuned separately; this feature does not change their behavior.
-- Auth0 still uses shared tenant branding from the music site. Choosing shared organization branding or per-app branding is deferred.
+- Auth0’s English login/signup descriptions now use `${clientName}`, and consent says `${clientName} is requesting permission to access your account.` The shared music-site logo was removed. Hosted pages currently show a generic Auth0 icon; a saved theme with `logo_position: none` did not hide that fallback in the verified hosted output. No umbrella name, custom page template, or paid upgrade was added. Login and signup were checked for both MyHelp and BelovedzGuard; consent wording was read back from the API, without signing in as a user. These tenant settings are already live and do not depend on deploying this branch.
 - Local sign-in, saving, and renaming have been user-tested. Before release, check signup, password-reset email delivery, logout, and a second account's isolation against the real tenant. Automated tests do not send account emails.
 - Deploy the saved-bundle schema and backend before the frontend. No new migration is needed for naming or the results layout.
 

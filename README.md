@@ -84,7 +84,10 @@ The configured frontend origins are `http://localhost:5173`,
 origin plus `/auth/callback`; logout URLs and web origins are the exact origins.
 Local Vite uses strict port 5173 so it cannot silently choose an unregistered port.
 If deploying a custom domain, add its exact origin and callback in Auth0 before
-using it. No tenant-wide branding or existing music-app settings were changed.
+using it. Shared Auth0 branding now uses the current application name in English
+login/signup descriptions and consent messages. The music-site logo was removed
+from shared branding; hosted pages currently show Auth0’s generic icon instead.
+Application callbacks, credentials, and account connections were not changed.
 
 ### Test both repositories locally
 
@@ -123,5 +126,6 @@ See [Current implementation](docs/Current%20Implementation.md) for the implement
 account and saved-bundle flow. Earlier V1 design documents are proposals where
 they conflict with that summary. Independent resource browsing remains undecided;
 individual-resource saving and permanent guest device storage are not implemented.
-Shared Auth0 login branding is deferred. Keep any future browse feature and
+Shared Auth0 login wording and the music-logo removal are configured in the
+tenant, independent of deploying this branch. Keep any future browse feature and
 scoring/weighting changes in separate branches from this account feature.
