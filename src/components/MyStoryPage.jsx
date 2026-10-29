@@ -4,7 +4,6 @@ export default function MyStoryPage() {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <p className="about-eyebrow">My Story</p>
         <h1>Help for the moment you’re in.</h1>
         <p>I’m the developer behind Clear Path Creative and the person who created My Help. The idea grew out of something I needed in my own life: a way to find encouragement in the very moment I was struggling.</p>
       </header>

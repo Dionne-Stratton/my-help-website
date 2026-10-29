@@ -5,7 +5,6 @@ export default function DonatePage() {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <p className="about-eyebrow">Support My Help</p>
         <h1>Help encouragement reach another heart.</h1>
         <p>Sometimes a verse, a prayer, or a song can help us pause and turn toward Jesus in the middle of a difficult day. My Help brings those resources together for people seeking comfort, hope, and a reminder of God’s love.</p>
         <p>If My Help has encouraged you and you’d like to support the work behind it, you’re welcome to make a voluntary contribution. Your support helps care for this space and continue developing it for the people who come here.</p>
