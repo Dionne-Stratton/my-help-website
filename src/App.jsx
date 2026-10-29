@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import CrisisHelpBadge from "./components/CrisisHelpBadge";
 import HelpFlow from "./features/help/HelpFlow";
 import AboutPage from "./components/AboutPage";
 import DonatePage from "./components/DonatePage";
 import ContactPage from "./components/ContactPage";
 import MyStoryPage from "./components/MyStoryPage";
+import logo from "./assets/logo.png";
 import "./App.css";
 
 function App() {
@@ -28,6 +29,10 @@ function App() {
     <div className="app-shell">
       <a className="skip-link" href="#page-content">Skip to content</a>
       <nav className="side-nav" aria-label="Main navigation">
+        <Link to="/" className="side-nav-brand" aria-label="My Help home" title="My Help home">
+          <img src={logo} alt="My Help" />
+        </Link>
+        <div className="side-nav-links">
         <NavLink to="/" end className="side-nav-link" aria-label="Find Help" title="Find Help" aria-current={page === "help" ? "page" : undefined}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
             <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z" />
@@ -58,6 +63,7 @@ function App() {
           </svg>
           <span>Contact</span>
         </NavLink>
+        </div>
       </nav>
       {showCrisisHelpBadge && (
         <CrisisHelpBadge onClose={() => setShowCrisisHelpBadge(false)} />

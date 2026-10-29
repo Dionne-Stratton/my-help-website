@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
 import { PAYPAL_SUPPORT_URL } from "../constants/donations";
 
 export default function DonatePage() {
   return (
     <main className="about-page">
       <header className="about-intro">
-        <img src={logo} alt="My Help" className="about-logo" />
         <p className="about-eyebrow">Support My Help</p>
         <h1>Help encouragement reach another heart.</h1>
         <p>Sometimes a verse, a prayer, or a song can help us pause and turn toward Jesus in the middle of a difficult day. My Help brings those resources together for people seeking comfort, hope, and a reminder of God’s love.</p>
