@@ -9,7 +9,7 @@ My Help is a faith-centered web application that helps visitors find relevant Sc
 - Install dependencies with `npm install`; start the Vite dev server with `npm run dev`.
 - Run `npm run lint` for ESLint and `npm run build` for a production build.
 - `npm run preview` builds and previews through Wrangler; `npm run deploy` builds and deploys with Wrangler. Cloudflare deployment requires the appropriate account authentication.
-- Set `VITE_API_BASE_URL` to the running backend's origin for help requests. The frontend defaults to `http://localhost:3000` if it is not set. Do not embed private API keys in `VITE_` variables.
+- Set `VITE_API_BASE_URL` to the running backend's origin for help requests. The frontend defaults to `http://localhost:8787` in development and the deployed backend URL in production. Do not embed private API keys in `VITE_` variables.
 
 ## Current pages
 
@@ -19,6 +19,8 @@ My Help is a faith-centered web application that helps visitors find relevant Sc
 | `/about` | App purpose, approach, and resources | `src/components/AboutPage.jsx` |
 | `/my-story` | Personal story behind the project | `src/components/MyStoryPage.jsx` |
 | `/donate` | Optional support through hosted PayPal checkout | `src/components/DonatePage.jsx` |
+| `/saved` | Account-owned bundles: open, rename, and remove | `src/components/SavedBundlesPage.jsx` |
+| `/auth/callback` | Auth0 sign-in return | `src/auth/MyHelpAuthProvider.jsx` |
 | `/contact` | Feedback, questions, problem reports, and resource suggestions | `src/components/ContactPage.jsx` |
 
 Unrecognized paths redirect to `/`. `src/App.jsx` owns routes, page titles, navigation links, and the dismissible crisis-help badge. The Find Help flow and contact form remain mounted when navigating between pages, preserving in-progress input.
@@ -83,9 +85,11 @@ using it. No tenant-wide branding or existing music-app settings were changed.
 
 ### Test both repositories locally
 
-1. In `my-help-node-server`, check out `feature/auth0-saved-bundles`, run `npm ci`,
-   and apply the local migration:
-   `npx wrangler d1 migrations apply my-help-db --local`.
+1. In `my-help-node-server`, check out `feature/auth0-saved-bundles` and run `npm ci`.
+   On an existing database, apply only the new saved-bundle schema if it is missing:
+   `npx wrangler d1 execute my-help-db --local --file=./api/migrations/003_saved_bundles.sql`.
+   If this already succeeded, skip it. Do not rerun historical seeds just to test accounts.
+   See the backend README for fresh-database setup.
 2. Start that backend with `npm run dev` (port 8787). Its Auth0 public settings are
    in `wrangler.toml`; keep the existing OpenAI key in the local `.dev.vars` file.
 3. In this frontend repository, check out the same branch, run `npm ci`, then
@@ -109,3 +113,12 @@ SQLite ownership queries. A real-user round trip remains a release smoke test.
 When testing locally, `.env.local` can set `VITE_API_BASE_URL=http://localhost:8787`; this overrides an older `.env` value pointing at the deployed backend. Restart Vite after editing environment files.
 
 Bundle result pages omit the older small logo. The Save control and editable-name form sit directly below the page heading, before the Scripture and other resources.
+
+## Current scope and follow-up work
+
+See [Current implementation](docs/Current%20Implementation.md) for the implemented
+account and saved-bundle flow. Earlier V1 design documents are proposals where
+they conflict with that summary. Independent resource browsing remains undecided;
+individual-resource saving and permanent guest device storage are not implemented.
+Shared Auth0 login branding is deferred. Keep any future browse feature and
+scoring/weighting changes in separate branches from this account feature.

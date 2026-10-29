@@ -1,3 +1,5 @@
+> Historical design proposal. For implemented accounts, whole-bundle saving, and current scope, see [Current implementation](Current%20Implementation.md). Individual-resource saving, a permanent guest library, and independent resource browsing described below are not implemented.
+
 API Routes V1
 Design goals
 The API should stay small and focused in v1.
