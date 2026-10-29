@@ -1,5 +1,5 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "http://localhost:8787" : "https://my-help-node-server.dionnestratton.workers.dev");
 
 export async function submitHelpRequest({ input, sessionId }) {
   const response = await fetch(`${API_BASE_URL}/api/help`, {

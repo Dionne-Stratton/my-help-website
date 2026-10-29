@@ -1,3 +1,4 @@
+import SaveBundleButton from "./SaveBundleButton";
 import SongResourceCard from "./SongResourceCard";
 import GospelInvitation from "./GospelInvitation";
 import DebugPanel from "./DebugPanel";
@@ -5,6 +6,8 @@ import logo from "../../assets/logo.png";
 
 export default function HelpBundleView({
   bundle,
+  sessionId,
+  startOverLabel = "Create a new moment",
   //   debug,
   onStartOver,
   isExiting = false,
@@ -81,9 +84,11 @@ export default function HelpBundleView({
 
         {/* <DebugPanel debug={debug} /> */}
 
+        {sessionId && <SaveBundleButton key={sessionId} bundle={bundle} sessionId={sessionId} />}
+
         <div style={styles.actions}>
           <button style={styles.secondaryButton} onClick={onStartOver}>
-            Create a new moment
+            {startOverLabel}
           </button>
         </div>
       </div>

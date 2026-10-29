@@ -1,3 +1,4 @@
+import { clearBundleDraft, restoreBundle } from "./bundleDraft";
 import { useState } from "react";
 import { submitHelpRequest } from "../../api/helpApi";
 
@@ -10,12 +11,13 @@ function generateSessionId() {
 }
 
 export default function HelpFlow() {
-  const [status, setStatus] = useState("idle"); // idle | loading | loading-exit | results | results-exit | error
+  const [draft] = useState(restoreBundle);
+  const [status, setStatus] = useState(draft ? "results" : "idle"); // idle | loading | loading-exit | results | results-exit | error
   const [input, setInput] = useState("");
-  const [bundle, setBundle] = useState(null);
+  const [bundle, setBundle] = useState(draft?.bundle ?? null);
   const [debug, setDebug] = useState(null);
   const [error, setError] = useState(null);
-  const [sessionId, setSessionId] = useState(generateSessionId());
+  const [sessionId, setSessionId] = useState(() => draft?.sessionId ?? generateSessionId());
 
   const handleSubmit = async () => {
     if (!input.trim()) return;
@@ -51,6 +53,7 @@ export default function HelpFlow() {
   };
 
   const handleStartOver = () => {
+    clearBundleDraft();
     setStatus("results-exit");
 
     setTimeout(() => {
@@ -81,6 +84,7 @@ export default function HelpFlow() {
     return (
       <HelpBundleView
         bundle={bundle}
+        sessionId={sessionId}
         debug={debug}
         onStartOver={handleStartOver}
         isExiting={status === "results-exit"}

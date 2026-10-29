@@ -47,3 +47,53 @@ Treat the backend API contract as authoritative for response fields and resource
 ## Documentation maintenance
 
 When a feature changes, update this README for new pages, navigation, deployment or frontend behavior. Coordinate API contract changes with the backend repository and update its documentation too; avoid copying speculative server behavior into this README.
+
+## Optional accounts and saved bundles
+
+Auth0 handles sign-in, account creation, and password resets using Universal Login.
+Visitors can still request help without an account. The navigation includes Sign in,
+Sign out, and Saved; a bundle's Save button prompts guests to sign in. A temporary
+sessionStorage draft preserves only the resource bundle and source ID across that
+redirect for 30 minutes, not the visitor's original input. After returning, press
+Save to confirm saving to the signed-in account. Create a new moment and sign-out
+clear this draft. Tokens stay in SDK memory, not localStorage; a page reload may
+require sign-in again when a browser prevents Auth0's silent session check.
+
+Auth0's configured public values are in `src/auth/config.js` and can be overridden
+with the `VITE_AUTH0_*` variables in `.env.example`. The app uses Authorization Code
+with PKCE. A public SPA has no client secret, and none should be added to frontend
+variables. Saved-bundle API requests send an API access token with the audience
+`https://myhelp-api` and scopes `read:saved_bundles write:saved_bundles`.
+
+The configured frontend origins are `http://localhost:5173`,
+`http://127.0.0.1:5173`, and
+`https://my-help-website.dionnestratton.workers.dev`. Each callback URL is the
+origin plus `/auth/callback`; logout URLs and web origins are the exact origins.
+Local Vite uses strict port 5173 so it cannot silently choose an unregistered port.
+If deploying a custom domain, add its exact origin and callback in Auth0 before
+using it. No tenant-wide branding or existing music-app settings were changed.
+
+### Test both repositories locally
+
+1. In `my-help-node-server`, check out `feature/auth0-saved-bundles`, run `npm ci`,
+   and apply the local migration:
+   `npx wrangler d1 migrations apply my-help-db --local`.
+2. Start that backend with `npm run dev` (port 8787). Its Auth0 public settings are
+   in `wrangler.toml`; keep the existing OpenAI key in the local `.dev.vars` file.
+3. In this frontend repository, check out the same branch, run `npm ci`, then
+   `npm run dev`. The default development API URL is `http://localhost:8787`.
+4. Check anonymous help, then sign in, save a bundle, open it from Saved, reload,
+   and sign back in if needed. Sign out and verify private bundles are hidden.
+   Use a second account to confirm the first account's saved bundles are absent.
+5. Check account creation, password-reset email delivery, and logout in the real
+   Auth0 tenant before release. Automated tests do not send real account emails.
+
+Production builds default to the verified backend URL
+`https://my-help-node-server.dionnestratton.workers.dev`; `VITE_API_BASE_URL`
+overrides it. Deploy backend migration `003_saved_bundles.sql` and the backend
+Worker before deploying the matching frontend. The changes are not deployed by
+pushing a feature branch.
+
+Run `npm test`, `npm run lint`, and `npm run build` for validation. Saved-list and
+button tests mock Auth0; backend tests independently verify signed JWTs and real
+SQLite ownership queries. A real-user round trip remains a release smoke test.
